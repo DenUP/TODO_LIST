@@ -1,7 +1,7 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:todo_list/model/groups_form_widget_model.dart';
+
+final _model = GroupFormWidgetModel();
 
 class GroupsFormWidgetBody extends StatefulWidget {
   const GroupsFormWidgetBody({super.key});
@@ -11,7 +11,6 @@ class GroupsFormWidgetBody extends StatefulWidget {
 }
 
 class _GroupsFormWidgetBodyState extends State<GroupsFormWidgetBody> {
-  final _model = GroupFormWidgetModel();
   @override
   Widget build(BuildContext context) {
     return GroupFormWidgetModelProvider(
@@ -36,7 +35,7 @@ class GroupsFormWidget extends StatelessWidget {
       body: SafeArea(
           child: Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 22),
+          padding: EdgeInsets.symmetric(horizontal: 22),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -45,6 +44,7 @@ class GroupsFormWidget extends StatelessWidget {
         ),
       )),
       floatingActionButton: FloatingActionButton(
+        
         onPressed: () => GroupFormWidgetModelProvider.read(context)
             ?.model
             .saveGroup(context),
@@ -64,7 +64,10 @@ class _GroupsFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = GroupFormWidgetModelProvider.read(context)?.model;
     return TextField(
+      onChanged: (value) => model?.title = value,
+      onEditingComplete: () => model?.saveGroup(context),
       autofocus: true,
       decoration: InputDecoration(
           border: OutlineInputBorder(

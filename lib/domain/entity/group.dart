@@ -5,5 +5,7 @@ part 'group.g.dart';
 @HiveType(typeId: 1)
 class Person {
   @HiveField(0)
-  late String name;
+  String name;
+
+  Person({required this.name});
 }

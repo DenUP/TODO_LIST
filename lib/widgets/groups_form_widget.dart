@@ -43,7 +43,10 @@ class _GroupsFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       autofocus: true,
-      decoration: InputDecoration(border: OutlineInputBorder()),
+      decoration: InputDecoration(
+          border: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.lightBlue, width: 1)),
+          focusColor: Colors.blue),
     );
   }
 }

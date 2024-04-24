@@ -1,4 +1,25 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
+import 'package:todo_list/model/groups_form_widget_model.dart';
+
+class GroupsFormWidgetBody extends StatefulWidget {
+  const GroupsFormWidgetBody({super.key});
+
+  @override
+  State<GroupsFormWidgetBody> createState() => _GroupsFormWidgetBodyState();
+}
+
+class _GroupsFormWidgetBodyState extends State<GroupsFormWidgetBody> {
+  final _model = GroupFormWidgetModel();
+  @override
+  Widget build(BuildContext context) {
+    return GroupFormWidgetModelProvider(
+      model: _model,
+      child: GroupsFormWidget(),
+    );
+  }
+}
 
 class GroupsFormWidget extends StatelessWidget {
   const GroupsFormWidget({super.key});
@@ -24,7 +45,9 @@ class GroupsFormWidget extends StatelessWidget {
         ),
       )),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => GroupFormWidgetModelProvider.read(context)
+            ?.model
+            .saveGroup(context),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
         child: Icon(

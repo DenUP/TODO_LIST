@@ -7,9 +7,6 @@ class GroupsWidgetModel extends ChangeNotifier {
   var _group = <Person>[];
 
   List<Person> get groups => _group.toList();
-  GroupWidgetModel() {
-    _setup();
-  }
 
   void showFrom(BuildContext context) {
     // function for navigation //
@@ -22,7 +19,7 @@ class GroupsWidgetModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _setup() async {
+  void setup() async {
     if (!Hive.isAdapterRegistered(1)) {
       Hive.registerAdapter(PersonAdapter());
     }
@@ -38,7 +35,7 @@ class GroupsWidgetProvider extends InheritedNotifier {
     super.key,
     required this.model,
     required super.child,
-  });
+  }) : super(notifier: model);
 
   static GroupsWidgetProvider? watch(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<GroupsWidgetProvider>();

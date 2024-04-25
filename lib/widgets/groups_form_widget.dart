@@ -20,9 +20,15 @@ class _GroupsFormWidgetBodyState extends State<GroupsFormWidgetBody> {
   }
 }
 
-class _GroupsFormWidget extends StatelessWidget {
+class _GroupsFormWidget extends StatefulWidget {
   const _GroupsFormWidget({super.key});
 
+  @override
+  State<_GroupsFormWidget> createState() => _GroupsFormWidgetState();
+}
+
+class _GroupsFormWidgetState extends State<_GroupsFormWidget> {
+  TextEditingController nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,12 +41,24 @@ class _GroupsFormWidget extends StatelessWidget {
       body: SafeArea(
           child: Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 22),
+          padding: const EdgeInsets.symmetric(horizontal: 22),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _GroupsFormField(),
+              TextField(
+                autofocus: true,
+                controller: nameController,
+                onEditingComplete: () =>
+                    GroupFormWidgetModelProvider.read(context)
+                        ?.model
+                        .saveGroup(context, nameController.text),
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Colors.lightBlue, width: 1)),
+                    focusColor: Colors.blue),
+              )
             ],
           ),
         ),
@@ -48,34 +66,14 @@ class _GroupsFormWidget extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () => GroupFormWidgetModelProvider.read(context)
             ?.model
-            .saveGroup(context),
+            .saveGroup(context, nameController.text),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
-        child: Icon(
+        child: const Icon(
           Icons.done,
           size: 28,
         ),
       ),
-    );
-  }
-}
-
-class _GroupsFormField extends StatelessWidget {
-  const _GroupsFormField({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final model = GroupFormWidgetModelProvider.read(context)?.model;
-    return TextField(
-      onChanged: (value) => model?.title = value,
-      onEditingComplete: () {
-        return model?.saveGroup(context);
-      },
-      autofocus: true,
-      decoration: InputDecoration(
-          border: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.lightBlue, width: 1)),
-          focusColor: Colors.blue),
     );
   }
 }

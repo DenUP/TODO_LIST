@@ -10,12 +10,17 @@ class GroupWidget extends StatefulWidget {
 
 class _GroupWidgetState extends State<GroupWidget> {
   final _model = GroupsWidgetModel();
+  @override
+  void initState() {
+    super.initState();
+    _model.setup();
 
+  }
   @override
   Widget build(BuildContext context) {
     return GroupsWidgetProvider(
       model: _model,
-      child: _GroupWidgetBody(),
+      child: const _GroupWidgetBody(),
     );
   }
 }
@@ -39,14 +44,14 @@ class _GroupWidgetBody extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add_box_sharp,
-          size: 30,
-        ),
         onPressed: () =>
             GroupsWidgetProvider.read(context)?.model.showFrom(context),
         foregroundColor: Colors.white,
         backgroundColor: Colors.blue,
+        child: const Icon(
+          Icons.add_box_sharp,
+          size: 30,
+        ),
       ),
     );
   }

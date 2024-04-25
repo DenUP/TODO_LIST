@@ -5,9 +5,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todo_list/domain/entity/group.dart';
 
 class GroupFormWidgetModel {
-  String title = ''; // Это для строки, а она уже будет добавляться в лист
+   // Это для строки, а она уже будет добавляться в лист
 
-  void saveGroup(BuildContext context) async {
+  void saveGroup(BuildContext context, String title) async {
     if (title == '') return;
     if (!Hive.isAdapterRegistered(1)) {
       return Hive.registerAdapter(PersonAdapter());
@@ -16,7 +16,6 @@ class GroupFormWidgetModel {
     final box = await Hive.openBox<Person>('group'); // Открываем бд
     var source = Person(name: title);
     await box.add(source);
-    print(box.getAt(1));
     Navigator.of(context).pop();
   }
 }

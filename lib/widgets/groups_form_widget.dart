@@ -15,13 +15,13 @@ class _GroupsFormWidgetBodyState extends State<GroupsFormWidgetBody> {
   Widget build(BuildContext context) {
     return GroupFormWidgetModelProvider(
       model: _model,
-      child: GroupsFormWidget(),
+      child: _GroupsFormWidget(),
     );
   }
 }
 
-class GroupsFormWidget extends StatelessWidget {
-  const GroupsFormWidget({super.key});
+class _GroupsFormWidget extends StatelessWidget {
+  const _GroupsFormWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +39,13 @@ class GroupsFormWidget extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [_GroupsFormField()],
+            children: [
+              _GroupsFormField(),
+            ],
           ),
         ),
       )),
       floatingActionButton: FloatingActionButton(
-        
         onPressed: () => GroupFormWidgetModelProvider.read(context)
             ?.model
             .saveGroup(context),
@@ -67,7 +68,9 @@ class _GroupsFormField extends StatelessWidget {
     final model = GroupFormWidgetModelProvider.read(context)?.model;
     return TextField(
       onChanged: (value) => model?.title = value,
-      onEditingComplete: () => model?.saveGroup(context),
+      onEditingComplete: () {
+        return model?.saveGroup(context);
+      },
       autofocus: true,
       decoration: InputDecoration(
           border: OutlineInputBorder(

@@ -12,7 +12,7 @@ class App extends StatelessWidget {
       initialRoute: '/groups',
       routes: {
         '/groups': (context) => const GroupWidget(),
-        '/groups/form': (context) => const GroupsFormWidget(),
+        '/groups/form': (context) => const GroupsFormWidgetBody(),
       },
       theme: ThemeData(primaryColorLight: Colors.blue),
     );

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/model/groups_form_widget_model.dart';
-
-final _model = GroupFormWidgetModel();
+import 'package:todo_list/model/groups_widget_model.dart';
 
 class GroupWidget extends StatefulWidget {
   const GroupWidget({super.key});
@@ -11,9 +9,11 @@ class GroupWidget extends StatefulWidget {
 }
 
 class _GroupWidgetState extends State<GroupWidget> {
+  final _model = GroupsWidgetModel();
+
   @override
   Widget build(BuildContext context) {
-    return GroupFormWidgetModelProvider(
+    return GroupsWidgetProvider(
       model: _model,
       child: _GroupWidgetBody(),
     );
@@ -43,7 +43,8 @@ class _GroupWidgetBody extends StatelessWidget {
           Icons.add_box_sharp,
           size: 30,
         ),
-        onPressed: () => Navigator.of(context).pushNamed('/groups/form'),
+        onPressed: () =>
+            GroupsWidgetProvider.read(context)?.model.showFrom(context),
         foregroundColor: Colors.white,
         backgroundColor: Colors.blue,
       ),
@@ -56,16 +57,17 @@ class _GroupWidgetList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final groupsCount =
+        GroupsWidgetProvider.watch(context)?.model.groups.length ?? 0;
     return ListView.separated(
-        itemBuilder: (context, index) {
-          return _GroupWidgetListRow(
-            indexList: index,
-          );
-        },
-        separatorBuilder: (context, index) => const Divider(
-              height: 5,
-            ),
-        itemCount: 20);
+      itemBuilder: (context, index) {
+        return _GroupWidgetListRow(indexList: index);
+      },
+      separatorBuilder: (context, index) {
+        return const Divider();
+      },
+      itemCount: groupsCount,
+    );
   }
 }
 
@@ -75,8 +77,13 @@ class _GroupWidgetListRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text('Title $indexList'),
+    final model = GroupsWidgetProvider.read(context)?.model;
+    final group = model!.groups[indexList];
+    return SizedBox(
+      child: ListTile(
+        onTap: () {},
+        title: Text(group.name),
+      ),
     );
   }
 }

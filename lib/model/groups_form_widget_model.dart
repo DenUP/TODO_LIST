@@ -13,10 +13,10 @@ class GroupFormWidgetModel {
       return Hive.registerAdapter(PersonAdapter());
     }
 
-    var box = await Hive.openBox<Person>('todo'); // Открываем бд
+    final box = await Hive.openBox<Person>('group'); // Открываем бд
     var source = Person(name: title);
     await box.add(source);
-    print(box.keys);
+    print(box.getAt(1));
     Navigator.of(context).pop();
   }
 }

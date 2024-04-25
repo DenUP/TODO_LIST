@@ -11,7 +11,7 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/groups',
       routes: {
-        '/groups': (context) => const GroupWidget(),
+        '/groups': (context) =>  GroupWidget(),
         '/groups/form': (context) => const GroupsFormWidgetBody(),
       },
       theme: ThemeData(primaryColorLight: Colors.blue),

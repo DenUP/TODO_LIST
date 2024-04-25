@@ -1,7 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/model/groups_form_widget_model.dart';
 
-class GroupWidget extends StatelessWidget {
+final _model = GroupFormWidgetModel();
+
+class GroupWidget extends StatefulWidget {
   const GroupWidget({super.key});
+
+  @override
+  State<GroupWidget> createState() => _GroupWidgetState();
+}
+
+class _GroupWidgetState extends State<GroupWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return GroupFormWidgetModelProvider(
+      model: _model,
+      child: _GroupWidgetBody(),
+    );
+  }
+}
+
+class _GroupWidgetBody extends StatelessWidget {
+  const _GroupWidgetBody({super.key});
 
   @override
   Widget build(BuildContext context) {

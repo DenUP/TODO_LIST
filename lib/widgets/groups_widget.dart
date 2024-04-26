@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/model/groups_widget_model.dart';
 
 class GroupsWidget extends StatefulWidget {
   const GroupsWidget({super.key});
@@ -8,9 +9,13 @@ class GroupsWidget extends StatefulWidget {
 }
 
 class _GroupsWidgetState extends State<GroupsWidget> {
+  final _model = GroupsWidgetModel();
   @override
   Widget build(BuildContext context) {
-    return _GroupsWidgetBody();
+    return GroupsWidgetProvider(
+      model: _model,
+      child: _GroupsWidgetBody(),
+    );
   }
 }
 

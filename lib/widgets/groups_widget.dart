@@ -1,94 +1,77 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/model/groups_widget_model.dart';
 
-class GroupWidget extends StatefulWidget {
-  const GroupWidget({super.key});
+class GroupsWidget extends StatefulWidget {
+  const GroupsWidget({super.key});
 
   @override
-  State<GroupWidget> createState() => _GroupWidgetState();
+  State<GroupsWidget> createState() => _GroupsWidgetState();
 }
 
-class _GroupWidgetState extends State<GroupWidget> {
+class _GroupsWidgetState extends State<GroupsWidget> {
   final _model = GroupsWidgetModel();
-  @override
-  void initState() {
-    super.initState();
-    _model.setup();
-
-  }
   @override
   Widget build(BuildContext context) {
     return GroupsWidgetProvider(
       model: _model,
-      child: const _GroupWidgetBody(),
+      child: const _GroupsWidgetBody(),
     );
   }
 }
 
-class _GroupWidgetBody extends StatelessWidget {
-  const _GroupWidgetBody({super.key});
+class _GroupsWidgetBody extends StatelessWidget {
+  const _GroupsWidgetBody({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Группы'),
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
         centerTitle: true,
-        foregroundColor: Colors.white,
-        backgroundColor: Colors.blue,
+        title: const Text('Группы'),
       ),
-      body: const SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: _GroupWidgetList(),
-        ),
-      ),
+      body: SafeArea(child: _GroupsWidgetList()),
       floatingActionButton: FloatingActionButton(
-        onPressed: () =>
-            GroupsWidgetProvider.read(context)?.model.showFrom(context),
-        foregroundColor: Colors.white,
+        onPressed: () {
+          Navigator.of(context).pushNamed('/groups/form');
+        },
         backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
         child: const Icon(
-          Icons.add_box_sharp,
-          size: 30,
+          Icons.add_box_outlined,
+          size: 34,
         ),
       ),
     );
   }
 }
 
-class _GroupWidgetList extends StatelessWidget {
-  const _GroupWidgetList({super.key});
+class _GroupsWidgetList extends StatelessWidget {
+  const _GroupsWidgetList({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final groupsCount =
-        GroupsWidgetProvider.watch(context)?.model.groups.length ?? 0;
     return ListView.separated(
-      itemBuilder: (context, index) {
-        return _GroupWidgetListRow(indexList: index);
-      },
-      separatorBuilder: (context, index) {
-        return const Divider();
-      },
-      itemCount: groupsCount,
-    );
+        itemBuilder: (context, index) => _GroupsWidgetListRow(
+              indexList: index,
+            ),
+        separatorBuilder: (context, index) => const Divider(),
+        itemCount:
+            GroupsWidgetProvider.watch(context)?.model.group.length ?? 0);
   }
 }
 
-class _GroupWidgetListRow extends StatelessWidget {
+class _GroupsWidgetListRow extends StatelessWidget {
   final int indexList;
-  const _GroupWidgetListRow({super.key, required this.indexList});
+  const _GroupsWidgetListRow({super.key, required this.indexList});
 
   @override
   Widget build(BuildContext context) {
-    final model = GroupsWidgetProvider.read(context)?.model;
-    final group = model!.groups[indexList];
-    return SizedBox(
-      child: ListTile(
-        onTap: () {},
-        title: Text(group.name),
-      ),
+    final model = GroupsWidgetProvider.read(context)!.model;
+    final group = model.group[indexList];
+    return ListTile(
+      title: Text(group.name),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -6,26 +8,27 @@ import 'package:todo_list/domain/entity/group.dart';
 class GroupsWidgetModel extends ChangeNotifier {
   var _group = <Person>[];
 
-  List<Person> get groups => _group.toList();
+  List<Person> get group => _group;
 
-  void showFrom(BuildContext context) {
-    // function for navigation //
-
-    Navigator.of(context).pushNamed('/groups/form');
+  GroupsWidgetModel() {
+    setup();
   }
-
-  void _readGroupsForm(Box<Person> box) {
-    _group = box.values.toList();
-    notifyListeners();
-  }
-
   void setup() async {
     if (!Hive.isAdapterRegistered(1)) {
       Hive.registerAdapter(PersonAdapter());
     }
-    final box = await Hive.openBox<Person>('group');
-    _readGroupsForm(box);
-    box.listenable().addListener(() => _readGroupsForm(box));
+    var box = await Hive.openBox<Person>('todo');
+    saveFrom(box);
+    box.listenable().addListener(() => saveFrom(box));
+  }
+
+  void saveFrom(Box<Person> box) {
+    _group = box.values.toList();
+    notifyListeners();
+  }
+
+  void navigator(BuildContext context) {
+    Navigator.of(context).pushNamed('/groups/form');
   }
 }
 
@@ -34,8 +37,11 @@ class GroupsWidgetProvider extends InheritedNotifier {
   const GroupsWidgetProvider({
     super.key,
     required this.model,
-    required super.child,
-  }) : super(notifier: model);
+    required Widget child,
+  }) : super(
+          child: child,
+          notifier: model,
+        );
 
   static GroupsWidgetProvider? watch(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<GroupsWidgetProvider>();

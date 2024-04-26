@@ -1,79 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/model/groups_form_widget_model.dart';
+import 'package:todo_list/model/groups_widget_model.dart';
 
-class GroupsFormWidgetBody extends StatefulWidget {
-  const GroupsFormWidgetBody({super.key});
+class GroupsFormWidget extends StatefulWidget {
+  const GroupsFormWidget({super.key});
 
   @override
-  State<GroupsFormWidgetBody> createState() => _GroupsFormWidgetBodyState();
+  State<GroupsFormWidget> createState() => _GroupsFormWidgetState();
 }
 
-class _GroupsFormWidgetBodyState extends State<GroupsFormWidgetBody> {
-  final _model = GroupFormWidgetModel();
-
+class _GroupsFormWidgetState extends State<GroupsFormWidget> {
+  final _model = GroupsFormWidgetModel();
   @override
   Widget build(BuildContext context) {
-    return GroupFormWidgetModelProvider(
-      model: _model,
-      child: const _GroupsFormWidget(),
-    );
+    return GroupsFormWidgetProvider(
+        model: _model, child: _GroupsFormWidgetBody());
   }
 }
 
-class _GroupsFormWidget extends StatefulWidget {
-  const _GroupsFormWidget({super.key});
+class _GroupsFormWidgetBody extends StatelessWidget {
+  const _GroupsFormWidgetBody({super.key});
 
-  @override
-  State<_GroupsFormWidget> createState() => _GroupsFormWidgetState();
-}
-
-class _GroupsFormWidgetState extends State<_GroupsFormWidget> {
-  TextEditingController nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Новая группа'),
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
         centerTitle: true,
-        foregroundColor: Colors.white,
-        backgroundColor: Colors.blue,
+        title: const Text('Новая группа'),
       ),
-      body: SafeArea(
-          child: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 22),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextField(
-                autofocus: true,
-                controller: nameController,
-                onEditingComplete: () =>
-                    GroupFormWidgetModelProvider.read(context)
-                        ?.model
-                        .saveGroup(context, nameController.text),
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.lightBlue, width: 1)),
-                    focusColor: Colors.blue),
-              )
-            ],
-          ),
-        ),
-      )),
+      body: SafeArea(child: Center(child: _GroupsFormField())),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => GroupFormWidgetModelProvider.read(context)
-            ?.model
-            .saveGroup(context, nameController.text),
-        backgroundColor: Colors.blue,
+        onPressed: () =>
+            GroupsFormWidgetProvider.read(context)?.model.saveGroup(context),
         foregroundColor: Colors.white,
+        backgroundColor: Colors.blue,
         child: const Icon(
           Icons.done,
-          size: 28,
+          size: 30,
         ),
       ),
+    );
+  }
+}
+
+class _GroupsFormField extends StatelessWidget {
+  const _GroupsFormField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final model = GroupsFormWidgetProvider.read(context)?.model;
+    return TextField(
+      onChanged: (value) => model?.title = value,
+      onEditingComplete: () => model?.saveGroup(context),
+      autofocus: true,
+      decoration: InputDecoration(
+          hintText: 'название группы', border: OutlineInputBorder()),
     );
   }
 }

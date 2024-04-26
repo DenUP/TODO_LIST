@@ -1,42 +1,35 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todo_list/domain/entity/group.dart';
 
-class GroupFormWidgetModel {
-   // Это для строки, а она уже будет добавляться в лист
-
-  void saveGroup(BuildContext context, String title) async {
-    if (title == '') return;
+class GroupsFormWidgetModel {
+  var title = '';
+  void saveGroup(BuildContext context) async {
     if (!Hive.isAdapterRegistered(1)) {
-      return Hive.registerAdapter(PersonAdapter());
+      Hive.registerAdapter(PersonAdapter());
     }
-
-    final box = await Hive.openBox<Person>('group'); // Открываем бд
-    var source = Person(name: title);
+    var box = await Hive.openBox<Person>('todo');
+    final source = Person(name: title);
     await box.add(source);
     Navigator.of(context).pop();
   }
 }
 
-class GroupFormWidgetModelProvider extends InheritedNotifier {
-  final GroupFormWidgetModel model;
-  const GroupFormWidgetModelProvider({
-    super.key,
-    required this.model,
-    required super.child,
-  });
+class GroupsFormWidgetProvider extends InheritedNotifier {
+  final GroupsFormWidgetModel model;
+  const GroupsFormWidgetProvider(
+      {super.key, required this.model, required Widget child})
+      : super(child: child);
 
-  static GroupFormWidgetModelProvider? watch(BuildContext context) {
+  static GroupsFormWidgetProvider? watch(BuildContext context) {
     return context
-        .dependOnInheritedWidgetOfExactType<GroupFormWidgetModelProvider>();
+        .dependOnInheritedWidgetOfExactType<GroupsFormWidgetProvider>();
   }
 
-  static GroupFormWidgetModelProvider? read(BuildContext context) {
+  static GroupsFormWidgetProvider? read(BuildContext context) {
     final widget = context
-        .getElementForInheritedWidgetOfExactType<GroupFormWidgetModelProvider>()
+        .getElementForInheritedWidgetOfExactType<GroupsFormWidgetProvider>()
         ?.widget;
-    return widget is GroupFormWidgetModelProvider ? widget : null;
+    return widget is GroupsFormWidgetProvider ? widget : null;
   }
 }

@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
-class GroupsFormWidgetModel {}
+class GroupsFormWidgetModel {
+  void saveGroup(BuildContext context, String title) async {
+    // if(!Hive.isAdapterRegistered(1)){
+    //   Hive.registerAdapter(adapter)
+    // }
+    var box = await Hive.openBox('todo');
+  }
+}
 
 class GroupsFormWidgetProvider extends InheritedNotifier {
   final GroupsFormWidgetModel model;

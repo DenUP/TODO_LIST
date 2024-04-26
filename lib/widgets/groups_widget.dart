@@ -14,7 +14,7 @@ class _GroupsWidgetState extends State<GroupsWidget> {
   Widget build(BuildContext context) {
     return GroupsWidgetProvider(
       model: _model,
-      child: _GroupsWidgetBody(),
+      child: const _GroupsWidgetBody(),
     );
   }
 }
@@ -57,7 +57,8 @@ class _GroupsWidgetList extends StatelessWidget {
               indexList: index,
             ),
         separatorBuilder: (context, index) => const Divider(),
-        itemCount: 20);
+        itemCount:
+            GroupsWidgetProvider.watch(context)?.model.group.length ?? 0);
   }
 }
 
@@ -67,8 +68,10 @@ class _GroupsWidgetListRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = GroupsWidgetProvider.read(context)!.model;
+    final group = model.group[indexList];
     return ListTile(
-      title: Text('title: $indexList'),
+      title: Text(group.name),
     );
   }
 }

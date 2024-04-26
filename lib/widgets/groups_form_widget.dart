@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/model/groups_form_widget_model.dart';
+import 'package:todo_list/model/groups_widget_model.dart';
 
 class GroupsFormWidget extends StatefulWidget {
   const GroupsFormWidget({super.key});
@@ -8,9 +10,11 @@ class GroupsFormWidget extends StatefulWidget {
 }
 
 class _GroupsFormWidgetState extends State<GroupsFormWidget> {
+  final _model = GroupsFormWidgetModel();
   @override
   Widget build(BuildContext context) {
-    return _GroupsFormWidgetBody();
+    return GroupsFormWidgetProvider(
+        model: _model, child: _GroupsFormWidgetBody());
   }
 }
 
@@ -28,7 +32,8 @@ class _GroupsFormWidgetBody extends StatelessWidget {
       ),
       body: SafeArea(child: Center(child: _GroupsFormField())),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () =>
+            GroupsFormWidgetProvider.read(context)?.model.saveGroup(context),
         foregroundColor: Colors.white,
         backgroundColor: Colors.blue,
         child: const Icon(
@@ -45,7 +50,10 @@ class _GroupsFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = GroupsFormWidgetProvider.read(context)?.model;
     return TextField(
+      onChanged: (value) => model?.title = value,
+      onEditingComplete: () => model?.saveGroup(context),
       autofocus: true,
       decoration: InputDecoration(
           hintText: 'название группы', border: OutlineInputBorder()),

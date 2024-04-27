@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -20,6 +18,14 @@ class GroupsWidgetModel extends ChangeNotifier {
     var box = await Hive.openBox<Person>('todo');
     saveFrom(box);
     box.listenable().addListener(() => saveFrom(box));
+  }
+
+  void delItem(int indexList) async {
+    if (!Hive.isAdapterRegistered(1)) {
+      Hive.registerAdapter(PersonAdapter());
+    }
+    var box = await Hive.openBox<Person>('todo');
+    await box.deleteAt(indexList);
   }
 
   void saveFrom(Box<Person> box) {

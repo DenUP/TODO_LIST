@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/model/groups_widget_model.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class GroupsWidget extends StatefulWidget {
   const GroupsWidget({super.key});
@@ -31,7 +32,11 @@ class _GroupsWidgetBody extends StatelessWidget {
         centerTitle: true,
         title: const Text('Группы'),
       ),
-      body: SafeArea(child: _GroupsWidgetList()),
+      body: SafeArea(
+          child: Padding(
+        padding: const EdgeInsets.only(top: 5),
+        child: _GroupsWidgetList(),
+      )),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).pushNamed('/groups/form');
@@ -68,10 +73,32 @@ class _GroupsWidgetListRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = GroupsWidgetProvider.read(context)!.model;
-    final group = model.group[indexList];
-    return ListTile(
-      title: Text(group.name),
+    final _model = GroupsWidgetProvider.read(context)!.model;
+    // final _del_items = _model.delItem(indexList);
+    final group = _model.group[indexList];
+    return Slidable(
+      endActionPane: ActionPane(
+        motion: ScrollMotion(),
+        children: [
+          SlidableAction(
+            onPressed: (context) => _model.delItem(indexList),
+            backgroundColor: Color(0xFF0392CF),
+            foregroundColor: Colors.white,
+            icon: Icons.save,
+            label: 'Изменить',
+          ),
+          SlidableAction(
+            onPressed: null,
+            backgroundColor: Color(0xFFFE4A49),
+            foregroundColor: Colors.white,
+            icon: Icons.delete,
+            label: 'Удалить',
+          ),
+        ],
+      ),
+      child: ListTile(
+        title: Text(group.name),
+      ),
     );
   }
 }

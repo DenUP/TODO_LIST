@@ -81,14 +81,14 @@ class _GroupsWidgetListRow extends StatelessWidget {
         motion: ScrollMotion(),
         children: [
           SlidableAction(
-            onPressed: (context) => _model.delItem(indexList),
+            onPressed: null,
             backgroundColor: Color(0xFF0392CF),
             foregroundColor: Colors.white,
             icon: Icons.save,
             label: 'Изменить',
           ),
           SlidableAction(
-            onPressed: null,
+            onPressed: (context) => _model.delItem(indexList),
             backgroundColor: Color(0xFFFE4A49),
             foregroundColor: Colors.white,
             icon: Icons.delete,

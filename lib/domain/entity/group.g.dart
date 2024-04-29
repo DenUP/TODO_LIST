@@ -6,23 +6,23 @@ part of 'group.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class PersonAdapter extends TypeAdapter<Person> {
+class GroupAdapter extends TypeAdapter<Group> {
   @override
   final int typeId = 1;
 
   @override
-  Person read(BinaryReader reader) {
+  Group read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Person(
+    return Group(
       name: fields[0] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Person obj) {
+  void write(BinaryWriter writer, Group obj) {
     writer
       ..writeByte(1)
       ..writeByte(0)
@@ -35,7 +35,7 @@ class PersonAdapter extends TypeAdapter<Person> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is PersonAdapter &&
+      other is GroupAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

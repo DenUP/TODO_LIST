@@ -4,37 +4,40 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todo_list/domain/entity/group.dart';
 
 class GroupsWidgetModel extends ChangeNotifier {
-  var _group = <Person>[];
+  var _group = <Group>[];
 
-  List<Person> get group => _group;
+  List<Group> get group => _group;
 
   GroupsWidgetModel() {
     setup();
   }
   void setup() async {
     if (!Hive.isAdapterRegistered(1)) {
-      Hive.registerAdapter(PersonAdapter());
+      Hive.registerAdapter(GroupAdapter());
     }
-    var box = await Hive.openBox<Person>('todo');
+    var box = await Hive.openBox<Group>('todo');
     saveFrom(box);
     box.listenable().addListener(() => saveFrom(box));
   }
 
+  
   void delItem(int indexList) async {
     if (!Hive.isAdapterRegistered(1)) {
-      Hive.registerAdapter(PersonAdapter());
+      Hive.registerAdapter(GroupAdapter());
     }
-    var box = await Hive.openBox<Person>('todo');
+    var box = await Hive.openBox<Group>('todo');
     await box.deleteAt(indexList);
   }
 
-  void saveFrom(Box<Person> box) {
+  void saveFrom(Box<Group> box) {
     _group = box.values.toList();
     notifyListeners();
   }
 
   void navigator(BuildContext context) {
-    Navigator.of(context).pushNamed('/groups/form');
+    Navigator.of(context).pushNamed(
+      '/groups/form',
+    );
   }
 }
 

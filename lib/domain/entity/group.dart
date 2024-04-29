@@ -3,9 +3,10 @@ import 'package:hive/hive.dart';
 part 'group.g.dart';
 
 @HiveType(typeId: 1)
-class Person {
+class Group {
   @HiveField(0)
   String name;
+  HiveList? task;
 
-  Person({required this.name});
+  Group({required this.name});
 }

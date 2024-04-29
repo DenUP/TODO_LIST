@@ -6,10 +6,10 @@ class GroupsFormWidgetModel {
   var title = '';
   void saveGroup(BuildContext context) async {
     if (!Hive.isAdapterRegistered(1)) {
-      Hive.registerAdapter(PersonAdapter());
+      Hive.registerAdapter(GroupAdapter());
     }
-    var box = await Hive.openBox<Person>('todo');
-    final source = Person(name: title);
+    var box = await Hive.openBox<Group>('todo');
+    final source = Group(name: title);
     await box.add(source);
     Navigator.of(context).pop();
   }

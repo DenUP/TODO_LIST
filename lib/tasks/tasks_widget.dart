@@ -49,13 +49,11 @@ class _TasksWidgetBody extends StatelessWidget {
         child: _TasksWidgetList(),
       )),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed('/groups/form');
-        },
+        onPressed: () => model?.showFrom(context),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
         child: const Icon(
-          Icons.add_box_outlined,
+          Icons.add_task_sharp,
           size: 34,
         ),
       ),

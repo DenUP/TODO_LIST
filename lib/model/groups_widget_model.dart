@@ -30,6 +30,10 @@ class GroupsWidgetModel extends ChangeNotifier {
     await box.deleteAt(indexList);
   }
 
+  void showFrom(BuildContext context) {
+    Navigator.of(context).pushNamed('/groups/form');
+  }
+
   void showTask(BuildContext context, int indexGroup) async {
     if (!Hive.isAdapterRegistered(1)) {
       Hive.registerAdapter(GroupAdapter());

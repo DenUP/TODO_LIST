@@ -26,6 +26,7 @@ class _GroupsWidgetBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _model = GroupsWidgetProvider.watch(context)?.model;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
@@ -39,9 +40,7 @@ class _GroupsWidgetBody extends StatelessWidget {
         child: _GroupsWidgetList(),
       )),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed('/groups/form');
-        },
+        onPressed: () => _model?.showFrom(context),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
         child: const Icon(

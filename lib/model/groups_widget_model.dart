@@ -26,7 +26,7 @@ class GroupsWidgetModel extends ChangeNotifier {
     if (!Hive.isAdapterRegistered(1)) {
       Hive.registerAdapter(GroupAdapter());
     }
-    var box = await Hive.openBox<Group>('todo');
+    final box = await Hive.openBox<Group>('todo');
     await box.deleteAt(indexList);
   }
 
@@ -35,11 +35,14 @@ class GroupsWidgetModel extends ChangeNotifier {
       Hive.registerAdapter(GroupAdapter());
     }
     final box = await Hive.openBox<Group>('todo');
-    final groupKey = box.getAt(indexGroup) as int;
-    unawaited(Navigator.of(context).pushNamed(
-      '/groups/tasks',
-      arguments: groupKey,
-    ));
+    final groupKey = box.keyAt(indexGroup) as int;
+
+    unawaited(
+      Navigator.of(context).pushNamed(
+        '/groups/tasks',
+        arguments: groupKey,
+      ),
+    );
   }
 
   void saveFrom(Box<Group> box) {

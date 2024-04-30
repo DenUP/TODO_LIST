@@ -18,7 +18,8 @@ class TaskAdapter extends TypeAdapter<Task> {
     };
     return Task(
       name: fields[0] as String,
-    )..isDone = fields[1] as bool?;
+      isDone: fields[1] as bool,
+    );
   }
 
   @override

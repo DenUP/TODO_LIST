@@ -7,7 +7,10 @@ class Task {
   @HiveField(0)
   String name;
   @HiveField(1)
-  bool? isDone;
+  bool isDone;
 
-  Task({required this.name});
+  Task({
+    required this.name,
+    required this.isDone,
+  });
 }

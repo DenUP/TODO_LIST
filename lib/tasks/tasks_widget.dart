@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/tasks/tasks_widget_model.dart';
 
 class TasksWidget extends StatefulWidget {
   const TasksWidget({super.key});
@@ -8,11 +9,23 @@ class TasksWidget extends StatefulWidget {
 }
 
 class _TasksWidgetState extends State<TasksWidget> {
+  TasksWidgetModel? _model;
+  @override
+  void didChangeDependencies() {
+    if (_model == null) {
+      final groupKey = ModalRoute.of(context)!.settings.arguments as int;
+      _model = TasksWidgetModel(groupkey: groupKey);
+    }
+
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final groupKey = ModalRoute.of(context)!.settings.arguments as int;
-
-    return _TasksWidgetBody();
+    return TasksWidgetModelProvider(
+      model: _model!,
+      child: _TasksWidgetBody(),
+    );
   }
 }
 
@@ -21,12 +34,14 @@ class _TasksWidgetBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = TasksWidgetModelProvider.watch(context)?.model;
+    final group = model?.group?.name ?? 'Задачи';
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
         centerTitle: true,
-        title: const Text('Tasks'),
+        title: Text(group),
       ),
       body: SafeArea(
           child: Padding(

@@ -5,6 +5,7 @@ import 'package:todo_list/domain/entity/group.dart';
 class GroupsFormWidgetModel {
   var title = '';
   void saveGroup(BuildContext context) async {
+    if (title.isEmpty) return;
     if (!Hive.isAdapterRegistered(1)) {
       Hive.registerAdapter(GroupAdapter());
     }

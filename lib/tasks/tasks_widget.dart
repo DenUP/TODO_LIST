@@ -34,7 +34,7 @@ class _TasksWidgetBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = TasksWidgetModelProvider.watch(context)?.model;
+    final model = TasksWidgetModelProvider.read(context)?.model;
     final group = model?.group?.name ?? 'Задачи';
     return Scaffold(
       appBar: AppBar(

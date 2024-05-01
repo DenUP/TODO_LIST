@@ -14,7 +14,9 @@ class _GroupsFormWidgetState extends State<GroupsFormWidget> {
   @override
   Widget build(BuildContext context) {
     return GroupsFormWidgetProvider(
-        model: _model, child: _GroupsFormWidgetBody());
+      model: _model,
+      child: _GroupsFormWidgetBody(),
+    );
   }
 }
 

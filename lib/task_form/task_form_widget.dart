@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/task_form/task_form_widget_model.dart';
 
 class TaskFormWidget extends StatefulWidget {
   const TaskFormWidget({super.key});
@@ -8,9 +9,24 @@ class TaskFormWidget extends StatefulWidget {
 }
 
 class _TaskFormWidgetState extends State<TaskFormWidget> {
+  TaskFormWidgetModel? _model;
+
+  @override
+  void didChangeDependencies() {
+    if (_model == null) {
+      final groupKey = ModalRoute.of(context)!.settings.arguments as int;
+      _model = TaskFormWidgetModel(groupKey: groupKey);
+    }
+
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return TaskFormWidgetBody();
+    return TaskFormWidgetModelProvider(
+      model: _model!,
+      child: TaskFormWidgetBody(),
+    );
   }
 }
 
@@ -19,6 +35,7 @@ class TaskFormWidgetBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = TaskFormWidgetModelProvider.read(context)?.model;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
@@ -26,10 +43,14 @@ class TaskFormWidgetBody extends StatelessWidget {
         centerTitle: true,
         title: const Text('Добавление новой задачи'),
       ),
-      body: SafeArea(child: Center(child: _TaskFormField())),
+      body:  SafeArea(
+          child: Center(
+              child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: _TaskFormField(),
+      ))),
       floatingActionButton: FloatingActionButton(
-        onPressed: null,
-        // GroupsFormWidgetProvider.read(context)?.model.saveGroup(context),
+        onPressed: () => model?.saveTask(context),
         foregroundColor: Colors.white,
         backgroundColor: Colors.blue,
         child: const Icon(
@@ -46,12 +67,18 @@ class _TaskFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = TaskFormWidgetModelProvider.read(context)?.model;
     return TextField(
-      // onChanged: (value) => model?.title = value,
-      // onEditingComplete: () => model?.saveGroup(context),
+      onChanged: (value) => model?.taskText = value,
+      onEditingComplete: () => model?.saveTask(context),
       autofocus: true,
+      maxLines: null,
+      minLines: null,
+      expands: true,
       decoration: InputDecoration(
-          hintText: 'название таски', border: OutlineInputBorder()),
+        hintText: 'Название таски',
+        border: InputBorder.none,
+      ),
     );
   }
 }

@@ -6,6 +6,11 @@ import 'package:todo_list/domain/entity/task.dart';
 
 class TasksWidgetModel extends ChangeNotifier {
   int groupkey;
+
+  var _tasks = <Task>[];
+
+  List<Task> get tasks => _tasks.toList();
+
   late final Future<Box<Group>> _groupBox;
   Group? _group;
   Group? get group => _group;
@@ -20,6 +25,22 @@ class TasksWidgetModel extends ChangeNotifier {
     }
     _groupBox = Hive.openBox<Group>('todo');
     _loadGroup();
+    _setupListenTasks();
+  }
+
+  void _readTask() {
+    _tasks = _group?.tasks ?? <Task>[];
+    notifyListeners();
+  }
+
+  void _setupListenTasks() async {
+    final box = await Hive.openBox<Group>('todo');
+    _readTask();
+    box.listenable(keys: [groupkey]).addListener(() => _readTask);
+  }
+
+  void deleteTask(int groupIndex) {
+    _group?.tasks?.deleteFromHive(groupIndex);
   }
 
   void showFrom(BuildContext context) {

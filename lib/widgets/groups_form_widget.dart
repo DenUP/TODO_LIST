@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:todo_list/model/groups_form_widget_model.dart';
-import 'package:todo_list/model/groups_widget_model.dart';
 
 class GroupsFormWidget extends StatefulWidget {
   const GroupsFormWidget({super.key});

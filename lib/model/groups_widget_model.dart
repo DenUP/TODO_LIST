@@ -17,7 +17,7 @@ class GroupsWidgetModel extends ChangeNotifier {
     if (!Hive.isAdapterRegistered(1)) {
       Hive.registerAdapter(GroupAdapter());
     }
-    var box = await Hive.openBox<Group>('todo');
+    final box = await Hive.openBox<Group>('todo');
     saveFrom(box);
     box.listenable().addListener(() => saveFrom(box));
   }

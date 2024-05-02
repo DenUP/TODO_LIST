@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo_list/tasks/tasks_widget_model.dart';
 
 class TasksWidget extends StatefulWidget {
@@ -34,7 +35,7 @@ class _TasksWidgetBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = TasksWidgetModelProvider.read(context)?.model;
+    final model = TasksWidgetModelProvider.watch(context)?.model;
     final group = model?.group?.name ?? 'Задачи';
     return Scaffold(
       appBar: AppBar(
@@ -66,10 +67,14 @@ class _TasksWidgetList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final itemCount =
+        TasksWidgetModelProvider.watch(context)?.model.tasks.length ?? 0;
     return ListView.separated(
         itemBuilder: (context, index) => _TasksWidgetListRow(indexList: index),
-        separatorBuilder: (context, index) => const Divider(),
-        itemCount: 10);
+        separatorBuilder: (context, index) => const Divider(
+              height: 1,
+            ),
+        itemCount: itemCount);
   }
 }
 
@@ -79,8 +84,41 @@ class _TasksWidgetListRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text('Text $indexList'),
+    final _model = TasksWidgetModelProvider.read(context)!.model;
+    final task = _model.tasks[indexList];
+    final icon =
+        task.isDone ? Icons.check_box_outlined : Icons.check_box_outline_blank;
+    final text_isDone = task.isDone
+        ? const TextStyle(decoration: TextDecoration.lineThrough)
+        : null;
+    return Slidable(
+      endActionPane: ActionPane(
+        motion: ScrollMotion(),
+        children: [
+          const SlidableAction(
+            onPressed: null,
+            backgroundColor: Color(0xFF0392CF),
+            foregroundColor: Colors.white,
+            icon: Icons.save,
+            label: 'Изменить',
+          ),
+          SlidableAction(
+            onPressed: (context) => _model.deleteTask(indexList),
+            backgroundColor: Color(0xFFFE4A49),
+            foregroundColor: Colors.white,
+            icon: Icons.delete,
+            label: 'Удалить',
+          ),
+        ],
+      ),
+      child: ListTile(
+        onTap: () => _model.task_isDone(indexList),
+        title: Text(
+          task.name,
+          style: text_isDone,
+        ),
+        trailing: Icon(icon),
+      ),
     );
   }
 }

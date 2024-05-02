@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -19,13 +21,25 @@ class TasksWidgetModel extends ChangeNotifier {
     _setup();
   }
 
-  void _setup() {
+  void _setup() async {
     if (!Hive.isAdapterRegistered(1)) {
       Hive.registerAdapter(GroupAdapter());
     }
     _groupBox = Hive.openBox<Group>('todo');
+    if (!Hive.isAdapterRegistered(2)) {
+      Hive.registerAdapter(TaskAdapter());
+    }
+    await Hive.openBox<Task>('task');
     _loadGroup();
     _setupListenTasks();
+  }
+
+  void task_isDone(int groupindex) async {
+    final task = group?.tasks?[groupindex];
+    final done = task?.isDone ?? false;
+    task?.isDone = !done;
+    await task?.save();
+    notifyListeners();
   }
 
   void _readTask() {
@@ -39,8 +53,10 @@ class TasksWidgetModel extends ChangeNotifier {
     box.listenable(keys: [groupkey]).addListener(() => _readTask);
   }
 
-  void deleteTask(int groupIndex) {
-    _group?.tasks?.deleteFromHive(groupIndex);
+  void deleteTask(int groupIndex) async {
+    await _group?.tasks?.deleteFromHive(groupIndex);
+    await _group?.save();
+    notifyListeners();
   }
 
   void showFrom(BuildContext context) {

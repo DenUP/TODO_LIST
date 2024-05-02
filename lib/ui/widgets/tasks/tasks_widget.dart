@@ -3,29 +3,30 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo_list/ui/widgets/tasks/tasks_widget_model.dart';
 
 class TasksWidget extends StatefulWidget {
-  const TasksWidget({super.key});
+  final int groupKey;
+  const TasksWidget({
+    super.key,
+    required this.groupKey,
+  });
 
   @override
   State<TasksWidget> createState() => _TasksWidgetState();
 }
 
 class _TasksWidgetState extends State<TasksWidget> {
-  TasksWidgetModel? _model;
-  @override
-  void didChangeDependencies() {
-    if (_model == null) {
-      final groupKey = ModalRoute.of(context)!.settings.arguments as int;
-      _model = TasksWidgetModel(groupkey: groupKey);
-    }
+  late final TasksWidgetModel _model;
 
-    super.didChangeDependencies();
+  @override
+  void initState() {
+    _model = TasksWidgetModel(groupkey: widget.groupKey);
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return TasksWidgetModelProvider(
-      model: _model!,
-      child: _TasksWidgetBody(),
+      model: _model,
+      child: const _TasksWidgetBody(),
     );
   }
 }
@@ -44,9 +45,9 @@ class _TasksWidgetBody extends StatelessWidget {
         centerTitle: true,
         title: Text(group),
       ),
-      body: SafeArea(
+      body: const SafeArea(
           child: Padding(
-        padding: const EdgeInsets.only(top: 5),
+        padding: EdgeInsets.only(top: 5),
         child: _TasksWidgetList(),
       )),
       floatingActionButton: FloatingActionButton(

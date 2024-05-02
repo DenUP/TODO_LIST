@@ -11,6 +11,7 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: mainNavigation.initialRoute,
       routes: mainNavigation.router,
+      onGenerateRoute: mainNavigation.onGenerateRoute,
       // theme: ThemeData(primaryColor: Colors.amber),
     );
   }

@@ -33,9 +33,9 @@ class _GroupsWidgetBody extends StatelessWidget {
         centerTitle: true,
         title: const Text('Группы'),
       ),
-      body: SafeArea(
+      body: const SafeArea(
           child: Padding(
-        padding: const EdgeInsets.only(top: 5),
+        padding: EdgeInsets.only(top: 5),
         child: _GroupsWidgetList(),
       )),
       floatingActionButton: FloatingActionButton(
@@ -79,7 +79,7 @@ class _GroupsWidgetListRow extends StatelessWidget {
       endActionPane: ActionPane(
         motion: ScrollMotion(),
         children: [
-          SlidableAction(
+          const SlidableAction(
             onPressed: null,
             backgroundColor: Color(0xFF0392CF),
             foregroundColor: Colors.white,

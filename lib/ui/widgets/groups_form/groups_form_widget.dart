@@ -14,7 +14,7 @@ class _GroupsFormWidgetState extends State<GroupsFormWidget> {
   Widget build(BuildContext context) {
     return GroupsFormWidgetProvider(
       model: _model,
-      child: _GroupsFormWidgetBody(),
+      child: const _GroupsFormWidgetBody(),
     );
   }
 }
@@ -31,7 +31,7 @@ class _GroupsFormWidgetBody extends StatelessWidget {
         centerTitle: true,
         title: const Text('Новая группа'),
       ),
-      body: SafeArea(child: Center(child: _GroupsFormField())),
+      body: const SafeArea(child: Center(child: _GroupsFormField())),
       floatingActionButton: FloatingActionButton(
         onPressed: () =>
             GroupsFormWidgetProvider.read(context)?.model.saveGroup(context),

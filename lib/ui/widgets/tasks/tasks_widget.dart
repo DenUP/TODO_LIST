@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:todo_list/tasks/tasks_widget_model.dart';
+import 'package:todo_list/ui/widgets/tasks/tasks_widget_model.dart';
 
 class TasksWidget extends StatefulWidget {
   const TasksWidget({super.key});
@@ -88,7 +88,7 @@ class _TasksWidgetListRow extends StatelessWidget {
     final task = _model.tasks[indexList];
     final icon =
         task.isDone ? Icons.check_box_outlined : Icons.check_box_outline_blank;
-    final text_isDone = task.isDone
+    final textisDone = task.isDone
         ? const TextStyle(decoration: TextDecoration.lineThrough)
         : null;
     return Slidable(
@@ -115,7 +115,7 @@ class _TasksWidgetListRow extends StatelessWidget {
         onTap: () => _model.task_isDone(indexList),
         title: Text(
           task.name,
-          style: text_isDone,
+          style: textisDone,
         ),
         trailing: Icon(icon),
       ),

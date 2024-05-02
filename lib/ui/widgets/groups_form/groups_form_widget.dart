@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/model/groups_form_widget_model.dart';
+import 'package:todo_list/ui/widgets/groups_form/groups_form_widget_model.dart';
 
 class GroupsFormWidget extends StatefulWidget {
   const GroupsFormWidget({super.key});
@@ -56,7 +56,7 @@ class _GroupsFormField extends StatelessWidget {
       onChanged: (value) => model?.title = value,
       onEditingComplete: () => model?.saveGroup(context),
       autofocus: true,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
           hintText: 'название группы', border: OutlineInputBorder()),
     );
   }

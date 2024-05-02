@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/task_form/task_form_widget_model.dart';
+import 'package:todo_list/ui/widgets/task_form/task_form_widget_model.dart';
 
 class TaskFormWidget extends StatefulWidget {
   const TaskFormWidget({super.key});
@@ -43,7 +43,7 @@ class TaskFormWidgetBody extends StatelessWidget {
         centerTitle: true,
         title: const Text('Добавление новой задачи'),
       ),
-      body:  SafeArea(
+      body: SafeArea(
           child: Center(
               child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -75,7 +75,7 @@ class _TaskFormField extends StatelessWidget {
       maxLines: null,
       minLines: null,
       expands: true,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         hintText: 'Название таски',
         border: InputBorder.none,
       ),

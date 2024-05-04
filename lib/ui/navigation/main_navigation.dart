@@ -35,6 +35,18 @@ class MainNavigation {
             groupKey: groupKey,
           ),
         );
+      default:
+        const widget = Text('Упс, вы ошиблись страницой...');
+        return MaterialPageRoute(
+          builder: (context) {
+            return const Scaffold(
+              backgroundColor: Colors.white,
+              body: Center(
+                child: widget,
+              ),
+            );
+          },
+        );
     }
   }
 }

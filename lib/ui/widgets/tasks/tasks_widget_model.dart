@@ -1,68 +1,47 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todo_list/domain/data_provider/box_manager.dart';
-import 'package:todo_list/domain/entity/group.dart';
 import 'package:todo_list/domain/entity/task.dart';
 import 'package:todo_list/ui/navigation/main_navigation.dart';
+import 'package:todo_list/ui/widgets/tasks/tasks_widget.dart';
 
 class TasksWidgetModel extends ChangeNotifier {
-  int groupkey;
+  TasksWidgetConfiguration configuration;
 
   var _tasks = <Task>[];
 
   List<Task> get tasks => _tasks.toList();
 
-  late final Future<Box<Group>> _groupBox;
-  Group? _group;
-  Group? get group => _group;
+  late final Future<Box<Task>> _box;
 
-  TasksWidgetModel({required this.groupkey}) {
+  TasksWidgetModel({required this.configuration}) {
     _setup();
   }
 
-  void _setup() async {
-    _groupBox = BoxManagart.instance.openGroupBox();
-    BoxManagart.instance.openTaskBox();
-    _loadGroup();
-    _setupListenTasks();
-  }
-
-  void task_isDone(int groupindex) async {
-    final task = group?.tasks?[groupindex];
-    final done = task?.isDone ?? false;
-    task?.isDone = !done;
-    await task?.save();
+  Future<void> _readTask() async {
+    _tasks = (await _box).values.toList();
     notifyListeners();
   }
 
-  void _readTask() {
-    _tasks = _group?.tasks ?? <Task>[];
-    notifyListeners();
+  Future<void> _setup() async {
+    _box = BoxManagart.instance.openTaskBox(configuration.groupKey);
+    await _readTask();
+    (await _box).listenable().addListener(_readTask);
   }
 
-  void _setupListenTasks() async {
-    final box = await BoxManagart.instance.openGroupBox();
-    _readTask();
-    box.listenable(keys: [groupkey]).addListener(() => _readTask);
+  Future<void> task_isDone(int taskIndex) async {
+    final task = (await _box).getAt(taskIndex);
+    task?.isDone = !task.isDone;
   }
 
-  void deleteTask(int groupIndex) async {
-    await _group?.tasks?.deleteFromHive(groupIndex);
-    await _group?.save();
-    notifyListeners();
+  Future<void> deleteTask(int taskIndex) async {
+    await (await _box).deleteAt(taskIndex);
   }
 
   void showFrom(BuildContext context) {
-    Navigator.of(context)
-        .pushNamed(MainNavigationRouter.tasksForm, arguments: groupkey);
-  }
-
-  void _loadGroup() async {
-    final box = await _groupBox;
-    _group = box.get(groupkey);
-    notifyListeners();
+    Navigator.of(context).pushNamed(MainNavigationRouter.tasksForm,
+        arguments: configuration.groupKey);
   }
 }
 

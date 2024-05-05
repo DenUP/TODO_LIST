@@ -6,6 +6,7 @@ import 'package:todo_list/domain/data_provider/box_manager.dart';
 import 'package:todo_list/domain/entity/group.dart';
 import 'package:todo_list/domain/entity/task.dart';
 import 'package:todo_list/ui/navigation/main_navigation.dart';
+import 'package:todo_list/ui/widgets/tasks/tasks_widget.dart';
 
 class GroupsWidgetModel extends ChangeNotifier {
   late final Future<Box<Group>> _box;
@@ -23,26 +24,31 @@ class GroupsWidgetModel extends ChangeNotifier {
   }
 
   Future<void> showTask(BuildContext context, int indexGroup) async {
-    final groupKey = (await _box).keyAt(indexGroup) as int;
-
-    Future<void> delItem(int indexList) async {
-      final box = await _box;
-      final groupKey = (await _box).keyAt(indexGroup) as int;
-      final taskBoxName = BoxManagart.instance.makeTaskBox(groupKey);
-      await Hive.deleteBoxFromDisk(taskBoxName);
-      await box.deleteAt(indexList);
+    final group = (await _box).getAt(indexGroup);
+    if (group != null) {
+      final configuration = TasksWidgetConfiguration(
+        group.key as int,
+        group.name,
+      );
+      unawaited(
+        Navigator.of(context).pushNamed(
+          MainNavigationRouter.tasks,
+          arguments: configuration,
+        ),
+      );
     }
+  }
 
-    void showFrom(BuildContext context) {
-      Navigator.of(context).pushNamed(MainNavigationRouter.groupsForm);
-    }
+  Future<void> delItem(int indexList) async {
+    final box = await _box;
+    final groupKey = (await _box).keyAt(indexList) as int;
+    final taskBoxName = BoxManagart.instance.makeTaskBox(groupKey);
+    await Hive.deleteBoxFromDisk(taskBoxName);
+    await box.deleteAt(indexList);
+  }
 
-    unawaited(
-      Navigator.of(context).pushNamed(
-        MainNavigationRouter.tasks,
-        arguments: groupKey,
-      ),
-    );
+  void showFrom(BuildContext context) {
+    Navigator.of(context).pushNamed(MainNavigationRouter.groupsForm);
   }
 
   Future<void> saveFrom() async {

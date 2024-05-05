@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:todo_list/domain/data_provider/box_manager.dart';
 import 'package:todo_list/domain/entity/group.dart';
 
 class GroupsFormWidgetModel {
   var title = '';
   void saveGroup(BuildContext context) async {
     if (title.isEmpty) return;
-    if (!Hive.isAdapterRegistered(1)) {
-      Hive.registerAdapter(GroupAdapter());
-    }
-    var box = await Hive.openBox<Group>('todo');
+    final box = await BoxManagart.instance.openGroupBox();
     final source = Group(name: title);
     await box.add(source);
     Navigator.of(context).pop();

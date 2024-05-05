@@ -1,5 +1,4 @@
 import 'package:hive/hive.dart';
-import 'package:todo_list/domain/entity/task.dart';
 
 part 'group.g.dart';
 

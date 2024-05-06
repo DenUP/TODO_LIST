@@ -35,6 +35,7 @@ class GroupsWidgetModel extends ChangeNotifier {
           arguments: configuration,
         ),
       );
+      BoxManagart.instance.closeBox(_box as Box);
     }
   }
 

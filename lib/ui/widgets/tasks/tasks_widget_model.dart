@@ -33,7 +33,8 @@ class TasksWidgetModel extends ChangeNotifier {
   Future<void> task_isDone(int taskIndex) async {
     final task = (await _box).getAt(taskIndex);
     task?.isDone = !task.isDone;
-    notifyListeners();
+    // notifyListeners();
+    await task?.save();
   }
 
   Future<void> deleteTask(int taskIndex) async {

@@ -30,6 +30,12 @@ class _TasksWidgetState extends State<TasksWidget> {
   }
 
   @override
+  void dispose() {
+    _model.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TasksWidgetModelProvider(
       model: _model,

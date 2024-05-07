@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todo_list/domain/data_provider/box_manager.dart';
@@ -10,6 +11,7 @@ import 'package:todo_list/ui/widgets/tasks/tasks_widget.dart';
 class GroupsWidgetModel extends ChangeNotifier {
   late final Future<Box<Group>> _box;
   var _group = <Group>[];
+  ValueListenable<Object>? _listenableBox;
 
   List<Group> get group => _group;
 
@@ -19,7 +21,8 @@ class GroupsWidgetModel extends ChangeNotifier {
   Future<void> setup() async {
     _box = BoxManagart.instance.openGroupBox();
     await saveFrom();
-    (await _box).listenable().addListener(saveFrom);
+    _listenableBox = (await _box).listenable();
+    _listenableBox?.addListener(saveFrom);
   }
 
   Future<void> showTask(BuildContext context, int indexGroup) async {
@@ -35,7 +38,6 @@ class GroupsWidgetModel extends ChangeNotifier {
           arguments: configuration,
         ),
       );
-      BoxManagart.instance.closeBox(_box as Box);
     }
   }
 
@@ -54,6 +56,13 @@ class GroupsWidgetModel extends ChangeNotifier {
   Future<void> saveFrom() async {
     _group = (await _box).values.toList();
     notifyListeners();
+  }
+
+  @override
+  void dispose() async {
+    _listenableBox?.removeListener(saveFrom);
+    await BoxManagart.instance.closeBox(await _box);
+    super.dispose();
   }
 
   void navigator(BuildContext context) {

@@ -9,9 +9,9 @@ class GroupsFormWidgetModel {
     final box = await BoxManagart.instance.openGroupBox();
     final source = Group(name: title);
     await box.add(source);
-    // await BoxManagart.instance.closeBox(box);
+    await BoxManagart.instance.closeBox(box);
     Navigator.of(context).pop();
-  } 
+  }
 }
 
 class GroupsFormWidgetProvider extends InheritedNotifier {

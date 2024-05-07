@@ -13,7 +13,7 @@ class TaskFormWidgetModel {
     final task = Task(name: taskText, isDone: false);
     final box = await BoxManagart.instance.openTaskBox(groupKey);
     await box.add(task);
-    // await BoxManagart.instance.closeBox(box);
+    await BoxManagart.instance.closeBox(box);
     Navigator.of(context).pop();
   }
 }

@@ -31,7 +31,12 @@ class _GroupsFormWidgetBody extends StatelessWidget {
         centerTitle: true,
         title: const Text('Новая группа'),
       ),
-      body: const SafeArea(child: Center(child: _GroupsFormField())),
+      body: const SafeArea(
+          child: Center(
+              child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 19),
+        child: _GroupsFormField(),
+      ))),
       floatingActionButton: FloatingActionButton(
         onPressed: () =>
             GroupsFormWidgetProvider.read(context)?.model.saveGroup(context),
@@ -56,8 +61,16 @@ class _GroupsFormField extends StatelessWidget {
       onChanged: (value) => model?.title = value,
       onEditingComplete: () => model?.saveGroup(context),
       autofocus: true,
+      cursorColor: Colors.blue,
       decoration: const InputDecoration(
-          hintText: 'название группы', border: OutlineInputBorder()),
+          focusColor: Colors.amber,
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.blue, width: 2),
+              borderRadius: BorderRadius.all(
+                Radius.circular(3),
+              )),
+          hintText: 'название группы',
+          border: OutlineInputBorder()),
     );
   }
 }

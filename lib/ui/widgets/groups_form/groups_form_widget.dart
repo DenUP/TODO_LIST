@@ -56,15 +56,16 @@ class _GroupsFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = GroupsFormWidgetProvider.read(context)?.model;
+    final model = GroupsFormWidgetProvider.watch(context)?.model;
     return TextField(
       onChanged: (value) => model?.title = value,
       onEditingComplete: () => model?.saveGroup(context),
       autofocus: true,
       cursorColor: Colors.blue,
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
+          errorText: model?.errorText,
           focusColor: Colors.amber,
-          focusedBorder: OutlineInputBorder(
+          focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.blue, width: 2),
               borderRadius: BorderRadius.all(
                 Radius.circular(3),

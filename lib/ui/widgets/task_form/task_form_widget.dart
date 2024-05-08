@@ -75,6 +75,7 @@ class _TaskFormField extends StatelessWidget {
       maxLines: null,
       minLines: null,
       expands: true,
+      cursorColor: const Color.fromARGB(255, 21, 145, 247),
       decoration: const InputDecoration(
         hintText: 'Название таски',
         border: InputBorder.none,

@@ -4,9 +4,18 @@ import 'package:todo_list/domain/entity/group.dart';
 
 class GroupsFormWidgetModel extends ChangeNotifier {
   String? errorText;
-  var title = '';
+  var _title = '';
+
+  set title(String value) {
+    if (errorText != null && value.trim().isNotEmpty) {
+      errorText = null;
+      notifyListeners();
+    }
+    _title = value;
+  }
+
   void saveGroup(BuildContext context) async {
-    final title = this.title.trim();
+    final title = _title.trim();
     if (title.isEmpty) {
       errorText = 'Введите текст';
       notifyListeners();

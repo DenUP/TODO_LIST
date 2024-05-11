@@ -1,9 +1,13 @@
-# 🎉 TODO LIST [RU/ENG]
-
-## Demonstrations
+# 🎉 TODO LIST #FLUTTER [RU/ENG]
 
 
-<img width="180" alt="TODO_FLUTTER" src="readme_img/Android Emulator.gif" />
+<img width="300" alt="TODO_FLUTTER" src="readme_img/Android Emulator.gif" />
+
+## 🦉 Stack
+    - Sdk: ^3.3.0
+    - Hive: ^2.2.3
+    - Flutter_slidable: ^3.1.0
+    - Build_runner: ^2.4.9
 
 ## Описание
 

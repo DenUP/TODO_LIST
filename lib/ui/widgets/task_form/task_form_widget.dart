@@ -35,7 +35,18 @@ class TaskFormWidgetBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = TaskFormWidgetModelProvider.read(context)?.model;
+    final model = TaskFormWidgetModelProvider.watch(context)?.model;
+    final isDisableFloatinButton = model!.isValid
+        ? FloatingActionButton(
+            onPressed: () => model?.saveTask(context),
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.blue,
+            child: const Icon(
+              Icons.done,
+              size: 30,
+            ),
+          )
+        : null;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
@@ -49,15 +60,7 @@ class TaskFormWidgetBody extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: _TaskFormField(),
       ))),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => model?.saveTask(context),
-        foregroundColor: Colors.white,
-        backgroundColor: Colors.blue,
-        child: const Icon(
-          Icons.done,
-          size: 30,
-        ),
-      ),
+      floatingActionButton: isDisableFloatinButton,
     );
   }
 }
@@ -67,7 +70,7 @@ class _TaskFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = TaskFormWidgetModelProvider.read(context)?.model;
+    final model = TaskFormWidgetModelProvider.watch(context)?.model;
     return TextField(
       onChanged: (value) => model?.taskText = value,
       onEditingComplete: () => model?.saveTask(context),

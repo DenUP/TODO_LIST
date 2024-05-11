@@ -1,16 +1,29 @@
-# todo_list
+# 🎉 TODO LIST [RU/ENG]
 
-A new Flutter project.
+## Demonstrations
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+<img width="180" alt="TODO_FLUTTER" src="readme_img/Android Emulator.gif" />
 
-A few resources to get you started if this is your first Flutter project:
+## Описание
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+TODO LIST - это удобное приложение для управления вашими задачами и списками дел. Организуйте свою жизнь, создавая задания, устанавливая приоритеты и отслеживая выполненные дела. Стильный и интуитивно понятный интерфейс приложения поможет вам эффективно планировать свои дела на каждый день.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Основные функции:
+
+- Создание задач и списков дел
+- Установка приоритетов для задач
+
+
+Не откладывайте важные дела на потом. Скачайте TODO LIST и начните эффективно управлять своим временем уже сегодня!
+
+## DESCRIPTION
+
+TODO LIST is a convenient application for managing your tasks and to-do lists. Organize your life by creating tasks, setting priorities, and tracking completed items. The stylish and intuitive interface of the app will help you efficiently plan your daily tasks.
+
+Key features:
+- Create tasks and to-do lists
+- Mark completed items
+
+
+Don't postpone important tasks. Download TODO LIST and start effectively managing your time today!

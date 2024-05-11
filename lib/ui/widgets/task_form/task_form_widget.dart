@@ -70,7 +70,7 @@ class _TaskFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = TaskFormWidgetModelProvider.watch(context)?.model;
+    final model = TaskFormWidgetModelProvider.read(context)?.model;
     return TextField(
       onChanged: (value) => model?.taskText = value,
       onEditingComplete: () => model?.saveTask(context),
